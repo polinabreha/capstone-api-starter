@@ -7,7 +7,8 @@ import jakarta.persistence.*;
 @Entity
 @JsonPropertyOrder({ "categoryId", "name", "description" })
 @Table(name = "categories")
-public class Category extends Product {
+public class Category {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private int categoryId;

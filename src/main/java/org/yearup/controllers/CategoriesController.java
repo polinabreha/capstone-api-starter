@@ -1,5 +1,7 @@
 package org.yearup.controllers;
 
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,15 +18,14 @@ import java.util.List;
 @CrossOrigin
 public class CategoriesController
 {
-    private CategoryService categoryService;
-    private ProductService productService;
+    private final CategoryService categoryService;
+    private final ProductService productService;
 
-    public CategoriesController(CategoryService categoryService){this.categoryService = categoryService;}
-    public CategoriesController(ProductService productService)
-    {
+    @Autowired
+    public CategoriesController(CategoryService categoryService,ProductService productService){
+        this.categoryService = categoryService;
         this.productService = productService;
     }
-
 
     @GetMapping
     @PreAuthorize("permitAll()")
@@ -55,17 +56,18 @@ public class CategoriesController
         return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
-    @PutMapping("/{categoryId}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category)
     {
-      productService.update(id, category);
+      categoryService.update(id, category);
       return ResponseEntity.ok().body(category);
 
     }
 
 
-   @DeleteMapping("/{categoryId}")
+   @DeleteMapping("/{id}")
+   @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id)
     {

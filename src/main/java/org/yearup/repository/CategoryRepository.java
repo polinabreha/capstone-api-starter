@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findByCategoryId(Long categoryId);
-    void deleteByCategoryId(int categoryId);
+    void deleteByCategoryId(int id);
 }
