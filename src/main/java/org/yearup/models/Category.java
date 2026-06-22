@@ -1,12 +1,13 @@
 package org.yearup.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 @Entity
+@JsonPropertyOrder({ "categoryId", "name", "description" })
 @Table(name = "categories")
-public class Category
-{
-    @Id
+public class Category extends Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private int categoryId;
@@ -21,7 +22,9 @@ public class Category
     {
     }
 
-    public Category(int categoryId, String name, String description)
+    public Category(@JsonProperty("categoryId") int categoryId,
+                    @JsonProperty("name") String name,
+                    @JsonProperty("description") String description)
     {
         this.categoryId = categoryId;
         this.name = name;
