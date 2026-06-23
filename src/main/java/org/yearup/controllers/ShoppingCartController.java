@@ -15,6 +15,7 @@ import org.yearup.service.UserService;
 import java.security.Principal;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:63342")
 @PreAuthorize("isAuthenticated()")
 public class ShoppingCartController
 {
@@ -28,8 +29,7 @@ public class ShoppingCartController
         this.productService = productService;
     }
 
-    // each method in this controller requires a Principal object as a parameter
-    @GetMapping
+    @GetMapping("/cart")
     public ShoppingCart getCart(Principal principal)
     {
         String userName = principal.getName();
@@ -68,13 +68,17 @@ public class ShoppingCartController
         return ResponseEntity.ok().body(cart);
     }
 
+    @DeleteMapping("/cart")
+    public ResponseEntity<ShoppingCart> clearCart(Principal principal)
+    {
+        String userName = principal.getName();
+        User user = userService.getByUserName(userName);
+        int userId = user.getId();
 
-    // add a PUT method to update an existing product in the cart - the url should be
-    // https://localhost:8080/cart/products/15  (15 is the productId to be updated)
-    // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated; return the cart (200 OK)
+        shoppingCartService.clearCart(userId);
+        ShoppingCart cart = shoppingCartService.getByUserId(userId);
+        return ResponseEntity.ok().body(cart);
+    }
 
-
-    // add a DELETE method to clear all products from the current users cart
-    // https://localhost:8080/cart  - return the (now empty) cart so the front end can refresh it (200 OK)
 
 }
