@@ -11,20 +11,23 @@ public class OrderLineItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_line_item_id")
     private Integer orderLineItemId;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
-    private Order orderId;
+    private Order order;
     @Column(name = "product_id", nullable = false)
     private Integer productId;
     @Column(name = "sales_price", nullable = false)
-    private Double salesPrice;
+    private BigDecimal salesPrice;
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
     @Column(name = "discount", nullable = false)
     private BigDecimal discount;
 
-    public OrderLineItem(Integer orderLineItemId, Order orderId, Integer productId, Double salesPrice, Integer quantity, BigDecimal discount) {
+    public OrderLineItem() {}
+
+    public OrderLineItem(Integer orderLineItemId, Order order, Integer productId, BigDecimal salesPrice, Integer quantity, BigDecimal discount) {
         this.orderLineItemId = orderLineItemId;
-        this.orderId = orderId;
+        this.order = order;
         this.productId = productId;
         this.salesPrice = salesPrice;
         this.quantity = quantity;
@@ -39,12 +42,12 @@ public class OrderLineItem {
         this.orderLineItemId = orderLineItemId;
     }
 
-    public Order getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Order orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Integer getProductId() {
@@ -55,11 +58,11 @@ public class OrderLineItem {
         this.productId = productId;
     }
 
-    public Double getSalesPrice() {
+    public BigDecimal getSalesPrice() {
         return salesPrice;
     }
 
-    public void setSalesPrice(Double salesPrice) {
+    public void setSalesPrice(BigDecimal salesPrice) {
         this.salesPrice = salesPrice;
     }
 

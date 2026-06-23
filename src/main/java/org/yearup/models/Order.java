@@ -4,7 +4,6 @@ package org.yearup.models;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,7 +13,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Integer orderId;
-    @Column(name = "data" , nullable = false)
+    @Column(name = "date" , nullable = false)
     private LocalDateTime data;
     @Column(name = "address", nullable = false)
     private String address;
@@ -26,6 +25,8 @@ public class Order {
     private String zip;
     @Column(name = "shipping_amount" ,nullable = false)
     private BigDecimal shippingAmount;
+
+    public Order() {}
 
     public Order(Integer orderId, LocalDateTime data, String address, String city, String state, String zip, BigDecimal shippingAmount) {
         this.orderId = orderId;
