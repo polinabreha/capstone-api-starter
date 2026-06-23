@@ -1,5 +1,6 @@
 package org.yearup.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.yearup.models.CartItem;
 import org.yearup.models.Product;
@@ -26,11 +27,10 @@ public class ShoppingCartService
 
     public ShoppingCart getByUserId(int userId)
     {
-        ShoppingCart cart = (ShoppingCart) shoppingCartRepository.findByUserId(userId);
-
-        if(cart == null) return new ShoppingCart();
 
         List<CartItem> cartItems = shoppingCartRepository.findByUserId(userId);
+
+        ShoppingCart cart = new ShoppingCart();
 
         Map<Integer, ShoppingCartItem>  map = new HashMap<>();
 
@@ -71,5 +71,11 @@ public class ShoppingCartService
             existing.setQuantity(quantity);
             shoppingCartRepository.save(existing);
         }
+    }
+
+    @Transactional
+    public void clearCart(int userId)
+    {
+        shoppingCartRepository.deleteByUserId(userId);
     }
 }
