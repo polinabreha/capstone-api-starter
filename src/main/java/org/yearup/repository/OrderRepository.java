@@ -3,7 +3,7 @@ package org.yearup.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.yearup.models.Order;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
-    Order findByUserId(Long userId);
-    Order findByIdAndUserId(Long id, Long userId);
+public interface OrderRepository extends JpaRepository<Order, Integer> {
+    Order findByUserId(Integer userId);
+    Order findByOrderIdAndUserId(Integer orderId, Integer userId);
 }

@@ -1,5 +1,6 @@
 package org.yearup.models;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,14 +33,11 @@ public class ShoppingCart
         return items.get(productId);
     }
 
-    public double getTotal()
-    {
-        double total = items.values()
-                            .stream()
-                            .mapToDouble(i -> i.getLineTotal())
-                            .sum();
-
-        return total;
+    public BigDecimal getTotal() {
+        return items.values()
+                .stream()
+                .map(ShoppingCartItem::getLineTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

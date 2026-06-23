@@ -11,10 +11,13 @@ import java.time.LocalDateTime;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "order_id")
     private Integer orderId;
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
     @Column(name = "date" , nullable = false)
-    private LocalDateTime data;
+    private LocalDateTime date;
     @Column(name = "address", nullable = false)
     private String address;
     @Column(name = "city", nullable = false)
@@ -28,14 +31,23 @@ public class Order {
 
     public Order() {}
 
-    public Order(Integer orderId, LocalDateTime data, String address, String city, String state, String zip, BigDecimal shippingAmount) {
+    public Order(Integer userId,Integer orderId, LocalDateTime date, String address, String city, String state, String zip, BigDecimal shippingAmount) {
+        this.userId = userId;
         this.orderId = orderId;
-        this.data = data;
+        this.date = date;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zip = zip;
         this.shippingAmount = shippingAmount;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getOrderId() {
@@ -46,12 +58,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public String getAddress() {

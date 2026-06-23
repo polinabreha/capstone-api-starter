@@ -15,7 +15,6 @@ import java.util.Map;
 @Service
 public class ShoppingCartService
 {
-    // a shopping cart is built from cart rows plus a product lookup for each row
     private final ShoppingCartRepository shoppingCartRepository;
     private final ProductService productService;
 
@@ -41,7 +40,7 @@ public class ShoppingCartService
             shoppingCartItem.setProduct(product);
             shoppingCartItem.setQuantity(cartItem.getQuantity());
             map.put(cartItem.getProductId(), shoppingCartItem);
-    }
+        }
 
         cart.setItems(map);
         return cart;
@@ -49,18 +48,18 @@ public class ShoppingCartService
 
     public void addProduct(int userId, Product product)
     {
-       CartItem existing = shoppingCartRepository.findByUserIdAndProductId(userId, product.getProductId());
+        CartItem existing = shoppingCartRepository.findByUserIdAndProductId(userId, product.getProductId());
 
-       if (existing != null){
-           existing.setQuantity(existing.getQuantity() + 1);
-           shoppingCartRepository.save(existing);
-       }else{
-           CartItem item = new CartItem();
-           item.setProductId(product.getProductId());
-           item.setQuantity(1);
-           item.setUserId(userId);
-           shoppingCartRepository.save(item);
-       }
+        if (existing != null){
+            existing.setQuantity(existing.getQuantity() + 1);
+            shoppingCartRepository.save(existing);
+        }else{
+            CartItem item = new CartItem();
+            item.setProductId(product.getProductId());
+            item.setQuantity(1);
+            item.setUserId(userId);
+            shoppingCartRepository.save(item);
+        }
     }
 
     public void updateProduct(int userId, int productId, int quantity)

@@ -6,6 +6,8 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.yearup.models.Product;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -27,6 +29,6 @@ class ProductRepositoryTest
 
         // assert
         assertNotNull(actual, "Because product 1 should exist in the test database.");
-        assertEquals(499.99, actual.getPrice(), 0.001, "Because I tried to get product 1 from the database.");
+        assertEquals(new BigDecimal("499.99"),  actual.getPrice(), "Because I tried to get product 1 from the database.");
     }
 }
