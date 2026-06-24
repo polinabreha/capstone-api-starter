@@ -32,9 +32,13 @@ public class CategoryService
         return categoryRepository.save(category);
     }
 
-    public Category update(int categoryId, Category category)
+    public Category update(int categoryId, Category updatedCategory)
     {
-        return categoryRepository.findAll().set(categoryId, category);
+        Category existing = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found: " + categoryId));
+        existing.setName(updatedCategory.getName());
+        existing.setDescription(updatedCategory.getDescription());
+        return categoryRepository.save(existing);
     }
 
     public void delete(int categoryId)
