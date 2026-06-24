@@ -30,8 +30,15 @@ public class CheckoutController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Order> checkout(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userRepository.findByUsername(userDetails.getUsername());
-        Order savedOrder = checkoutService.checkout(user.getId());
-        return ResponseEntity.ok(savedOrder);
+        try {
+            User user = userRepository.findByUsername(userDetails.getUsername());
+            Order savedOrder = checkoutService.checkout(user.getId());
+            return ResponseEntity.ok(savedOrder);
+        } catch (RuntimeException e) {
+            if (e.getMessage().equals("Cart is empty")) {
+                return ResponseEntity.badRequest().build();
+            }
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

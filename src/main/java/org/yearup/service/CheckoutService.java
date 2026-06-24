@@ -33,6 +33,10 @@ public class CheckoutService {
     public Order checkout(Integer userId) {
         ShoppingCart shoppingCart = shoppingCartService.getByUserId(userId);
 
+        if (shoppingCart == null ||  shoppingCart.getItems().isEmpty()) {
+            throw new RuntimeException("Cart is empty");
+        }
+
         Profile profile = profileRepository.findByUserId(userId);
 
         Order order = new Order();
@@ -46,6 +50,7 @@ public class CheckoutService {
         Order savedOrder = orderRepository.save(order);
 
         for (ShoppingCartItem cartItem : shoppingCart.getItems().values()) {
+
             Product product = productRepository.findById(cartItem.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProductId()));
 
