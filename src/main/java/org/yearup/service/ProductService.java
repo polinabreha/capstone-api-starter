@@ -39,7 +39,8 @@ public class ProductService
 
     public Product getById(int productId)
     {
-        return productRepository.findById(productId).orElse(null);
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found: " + productId));
     }
 
     public Product create(Product product)

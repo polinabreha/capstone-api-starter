@@ -36,6 +36,10 @@ public class ShoppingCartService
         for (CartItem cartItem : cartItems) {
             Product product = productService.getById(cartItem.getProductId());
 
+            if (product == null) {
+                continue;
+            }
+
             ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
             shoppingCartItem.setProduct(product);
             shoppingCartItem.setQuantity(cartItem.getQuantity());
