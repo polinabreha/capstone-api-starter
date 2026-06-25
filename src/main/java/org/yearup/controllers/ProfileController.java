@@ -28,7 +28,7 @@ public class ProfileController {
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Profile> getProfile(Principal principal) {
-        if (principal == null) {
+        if (principal == null ) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         String userName = principal.getName();
