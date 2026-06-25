@@ -40,7 +40,7 @@ public class ProductsController
     {
         Product product = productService.getById(id);
 
-        if (product == null)
+        if (product == null )
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
         return product;

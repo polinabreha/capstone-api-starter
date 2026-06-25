@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
 import org.yearup.service.CategoryService;
@@ -36,9 +37,18 @@ public class CategoriesController
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public List<Category> getById(@PathVariable long id)
-    {
-        return categoryService.getById(id);
+    public List<Category> getById(@PathVariable long id) {
+
+        List<Category> category = categoryService.getById(id);
+
+        if (category == null || category.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Category with id " + id + " not found"
+            );
+        }
+
+        return category;
     }
 
     @GetMapping("/{categoryId}/products")
